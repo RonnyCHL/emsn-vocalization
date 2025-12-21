@@ -1,0 +1,28 @@
+--- a/cnn_classifier_pytorch.py
++++ b/cnn_classifier_pytorch.py
+@@ -165,18 +165,16 @@ class CNNVocalizationClassifier:
+         train_dataset = TensorDataset(X_train, y_train)
+         test_dataset = TensorDataset(X_test, y_test)
+
+-        # Geoptimaliseerde DataLoaders met parallel loading
++        # DataLoaders - num_workers=0 voor stabiliteit op NAS (beperkt geheugen)
++        # num_workers>0 veroorzaakt "worker exited unexpectedly" op Synology
+         train_loader = DataLoader(
+             train_dataset,
+             batch_size=batch_size,
+             shuffle=True,
+-            num_workers=2,      # Parallel data loading
+-            pin_memory=True,    # Snellere CPU→GPU transfer (ook nuttig voor CPU)
+-            persistent_workers=True  # Behoud workers tussen epochs
++            num_workers=0,      # Single-threaded voor stabiliteit
++            pin_memory=False    # Geen pin_memory zonder workers
+         )
+         test_loader = DataLoader(
+             test_dataset,
+             batch_size=batch_size,
+-            num_workers=2,
+-            pin_memory=True,
+-            persistent_workers=True
++            num_workers=0,
++            pin_memory=False
+         )

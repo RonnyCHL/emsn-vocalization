@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  vocalization-trainer:
+    build: .
+    container_name: emsn-vocalization-trainer
+    volumes:
+      # Data en models persistent
+      - ./data:/app/data
+      - ./logs:/app/logs
+      # Source code - live mount zodat wijzigingen direct actief zijn
+      - ./src:/app/src
+      - ./train_existing.py:/app/train_existing.py:ro
+      # BirdNET database (read-only) - lokale kopie op NAS
+      - ./data/birds.db:/data/birds.db:ro
+    environment:
+      - BIRDNET_DB=/data/birds.db
+      - PG_HOST=192.168.1.25
+      - PG_PORT=5433
+      - PG_DB=emsn
+      - PG_USER=birdpi_zolder
+      - PG_PASS=IwnadBon2iN
+    restart: "no"
+    # Lage CPU prioriteit
+    cpu_shares: 512
+    # Geheugen limiet
+    mem_limit: 4g
+    # Netwerk toegang voor PostgreSQL en internet (Xeno-canto)
+    network_mode: bridge
