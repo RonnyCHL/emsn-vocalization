@@ -1,38 +1,46 @@
-# EMSN Bird Vocalization Classifier
+# BirdNET-Pi Vocalization Classifier
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18010669.svg)](https://doi.org/10.5281/zenodo.18010669)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 
-**Automated bird vocalization classifier using CNN models**
+**Classify bird vocalizations as song, call, or alarm**
 
-Classifies bird vocalizations into **song**, **call**, and **alarm** types for 232 Dutch bird species.
+Works with BirdNET-Pi to add vocalization context to your bird detections.
 
-## Overview
+## What does it do?
 
-This project trains Convolutional Neural Networks (CNN) to distinguish between different vocalization types using:
-- Audio data from [Xeno-canto](https://xeno-canto.org/)
-- Mel spectrograms as input features
-- PyTorch for model training
-- Integration with BirdNET-Pi for species identification
+| Detection | Without | With Vocalization |
+|-----------|---------|-------------------|
+| Eurasian Blackbird | "Merel detected" | "Merel - **Zang** (93%)" |
+| European Robin | "Roodborst detected" | "Roodborst - **Alarm** (87%)" |
 
-## Features
+### Why is this useful?
 
-- Automatic download of training data from Xeno-canto
-- Mel spectrogram generation from audio files
-- CNN model training with PyTorch
-- Support for 232 Dutch bird species
-- PostgreSQL database for tracking training progress
-- Docker support for isolated training environment
-- Grafana dashboard for monitoring
-
-## Requirements
-
-- Python 3.10+
-- PyTorch
-- PostgreSQL (for training tracking)
-- Docker (optional, for containerized training)
+- **Song**: Bird is marking territory or attracting mate
+- **Call**: Contact calls, flock communication
+- **Alarm**: Predator nearby! (cat, sparrowhawk, etc.)
 
 ## Quick Start
+
+### Use Pre-trained Models
+
+```bash
+# Download models (196 Dutch species available)
+# Models are ~2MB each, download only what you need
+
+# Example: classify a detection
+from src.classifiers.cnn_inference import VocalizationClassifier
+
+classifier = VocalizationClassifier(models_dir="./models")
+result = classifier.classify("Koolmees", "/path/to/audio.wav")
+
+if result:
+    print(f"{result['type']} ({result['confidence']:.0%})")
+    # Output: song (91%)
+```
+
+### Train Your Own Models
 
 ```bash
 # Clone the repository
@@ -40,68 +48,114 @@ git clone https://github.com/RonnyCHL/emsn-vocalization.git
 cd emsn-vocalization
 
 # Install dependencies
-pip install -r requirements.txt
+pip install torch librosa numpy scikit-learn tqdm requests
 
-# Train a model for a species
+# Train a model (downloads data from Xeno-canto automatically)
 python train_existing.py --species "Koolmees"
 ```
+
+### Train on Google Colab (Free GPU)
+
+Open `notebooks/EMSN_Vocalization_Colab_Training.ipynb` in Google Colab for free GPU training.
+
+## How it Works
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  BirdNET-Pi     │     │  Vocalization    │     │   Result        │
+│  "Merel"        │ ──▶ │  Classifier      │ ──▶ │  "Merel - Zang" │
+│                 │     │  (CNN model)     │     │  (93%)          │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+```
+
+1. **BirdNET-Pi** identifies the bird species from audio
+2. **This classifier** analyzes the same audio with a species-specific CNN
+3. **Output** includes vocalization type (song/call/alarm) with confidence
 
 ## Project Structure
 
 ```
 emsn-vocalization/
 ├── src/
-│   ├── classifiers/      # CNN model definitions
+│   ├── classifiers/      # CNN model & inference
 │   ├── collectors/       # Xeno-canto data collection
-│   ├── processors/       # Audio processing & spectrograms
-│   └── utils/            # Helper functions
-├── data/
-│   ├── raw/              # Downloaded audio files
-│   ├── spectrograms-*/   # Generated spectrograms
-│   └── models/           # Trained model files (.pt)
+│   └── processors/       # Audio → spectrogram processing
+├── notebooks/            # Colab training notebooks
 ├── train_existing.py     # Main training script
-├── full_pipeline.py      # Complete training pipeline
-└── docker-compose.yml    # Docker configuration
+├── full_pipeline.py      # Complete pipeline (download → train)
+└── docker-compose.yml    # Docker training environment
 ```
 
-## Model Architecture
+## Model Details
 
-The CNN classifier uses:
-- 3 convolutional layers with batch normalization
-- Max pooling and dropout for regularization
-- Fully connected layers for classification
-- Cross-entropy loss with class weighting
+- **Architecture**: 3-layer CNN with batch normalization
+- **Input**: Mel spectrograms (128 bins, 3 seconds)
+- **Output**: song / call / alarm + confidence
+- **Size**: ~2MB per species model
+- **Accuracy**: 85-95% for common species
+
+## Available Models
+
+Currently **196 trained models** for Dutch bird species, including:
+- Koolmees (Great Tit)
+- Merel (Eurasian Blackbird)
+- Roodborst (European Robin)
+- Huismus (House Sparrow)
+- Vink (Common Chaffinch)
+- ... and 191 more
+
+## Integration Options
+
+### Standalone (recommended for testing)
+Run as separate service, reads BirdNET-Pi's `birds.db`.
+
+### With BirdNET-Pi
+Can be integrated to show vocalization in the web interface.
+
+See [COMMUNITY_PITCH.md](docs/COMMUNITY_PITCH.md) for integration discussion.
+
+## Requirements
+
+- Python 3.10+
+- PyTorch 2.0+
+- librosa
+- numpy
+- Raspberry Pi 4/5 (for inference) or any Linux system
 
 ## Training Data
 
-Training data is automatically collected from Xeno-canto based on:
-- Dutch bird species list (232 species)
-- Vocalization type labels (song/call/alarm)
-- Quality ratings (A/B preferred)
+Audio data is automatically downloaded from [Xeno-canto](https://xeno-canto.org/):
+- Quality A/B recordings preferred
+- Balanced sampling across vocalization types
+- Respects Xeno-canto API rate limits
 
-## Integration with BirdNET-Pi
+## Contributing
 
-This classifier works alongside BirdNET-Pi:
-1. BirdNET-Pi identifies the bird species
-2. This classifier determines the vocalization type
-3. Combined data provides richer insights
+- **Test the classifier**: Try it with your BirdNET-Pi setup
+- **Train more species**: Use Colab notebook to train new models
+- **Report issues**: Open a GitHub issue
+- **Integration ideas**: See community pitch document
 
 ## Related Projects
 
-- [EMSN 2.0](https://github.com/RonnyCHL/emsn2) - Main biodiversity monitoring system
 - [BirdNET-Pi](https://github.com/mcguirepr89/BirdNET-Pi) - Bird species identification
+- [Xeno-canto](https://xeno-canto.org/) - Bird sound database
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+MIT License - free to use, modify, and distribute.
 
 ## Author
 
-Ronny Hullegie - EMSN Project
+Ronny Hullegie - [EMSN Project](https://github.com/RonnyCHL/emsn2) (Ecologisch Monitoring Systeem Nijverdal)
 
 ## Citation
 
-If you use this project in your research, please cite:
-```
-Hullegie, R. (2025). EMSN Bird Vocalization Classifier. GitHub. https://github.com/RonnyCHL/emsn-vocalization
+```bibtex
+@software{hullegie2025vocalization,
+  author = {Hullegie, Ronny},
+  title = {BirdNET-Pi Vocalization Classifier},
+  year = {2025},
+  url = {https://github.com/RonnyCHL/emsn-vocalization}
+}
 ```
