@@ -33,11 +33,11 @@ def get_current_quarter():
     quarter = (now.month - 1) // 3 + 1
     return f"{now.year}Q{quarter}"
 
-PG_HOST = os.environ.get('PG_HOST', '192.168.1.25')
-PG_PORT = os.environ.get('PG_PORT', '5433')
-PG_DB = os.environ.get('PG_DB', 'emsn')
-PG_USER = os.environ.get('PG_USER', 'birdpi_zolder')
-PG_PASS = os.environ.get('PG_PASS', 'IwnadBon2iN')
+PG_HOST = os.environ.get('PG_HOST', 'localhost')
+PG_PORT = os.environ.get('PG_PORT', '5432')
+PG_DB = os.environ.get('PG_DB', 'birdnet')
+PG_USER = os.environ.get('PG_USER', 'birdnet')
+PG_PASS = os.environ.get('PG_PASS', '')  # Set via environment variable
 
 def get_pg():
     return psycopg2.connect(host=PG_HOST, port=PG_PORT, database=PG_DB, user=PG_USER, password=PG_PASS)

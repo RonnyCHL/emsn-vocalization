@@ -15,11 +15,11 @@ services:
       - ./data/birds.db:/data/birds.db:ro
     environment:
       - BIRDNET_DB=/data/birds.db
-      - PG_HOST=192.168.1.25
-      - PG_PORT=5433
-      - PG_DB=emsn
-      - PG_USER=birdpi_zolder
-      - PG_PASS=IwnadBon2iN
+      - PG_HOST=${PG_HOST:-localhost}
+      - PG_PORT=${PG_PORT:-5432}
+      - PG_DB=${PG_DB:-birdnet}
+      - PG_USER=${PG_USER:-birdnet}
+      - PG_PASS=${PG_PASS}  # Required: export PG_PASS=yourpassword before docker-compose up
     restart: "no"
     # Lage CPU prioriteit
     cpu_shares: 512

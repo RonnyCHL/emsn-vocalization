@@ -5,8 +5,9 @@ data/*.db
 *.wav
 *.mp3
 
-# Model files (large)
+# Model files (large - use releases or external storage)
 models/*.pt
+trained-models/*.pt
 *.pth
 
 # Python

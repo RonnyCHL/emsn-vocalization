@@ -58,12 +58,12 @@ LOGS_DIR = Path('/app/logs')
 for d in [DATA_DIR, RAW_DIR, MODELS_DIR, LOGS_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
-# Database config
-PG_HOST = os.environ.get('PG_HOST', '192.168.1.25')
-PG_PORT = os.environ.get('PG_PORT', '5433')
-PG_DB = os.environ.get('PG_DB', 'emsn')
-PG_USER = os.environ.get('PG_USER', 'birdpi_zolder')
-PG_PASS = os.environ.get('PG_PASS', 'IwnadBon2iN')
+# Database config - set via environment variables
+PG_HOST = os.environ.get('PG_HOST', 'localhost')
+PG_PORT = os.environ.get('PG_PORT', '5432')
+PG_DB = os.environ.get('PG_DB', 'birdnet')
+PG_USER = os.environ.get('PG_USER', 'birdnet')
+PG_PASS = os.environ.get('PG_PASS', '')  # Required: set PG_PASS environment variable
 
 # Training parameters
 SAMPLES_PER_TYPE = 150  # Audio samples per vocalization type

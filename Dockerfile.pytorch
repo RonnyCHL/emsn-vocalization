@@ -31,13 +31,13 @@ COPY train_existing.py /app/
 # Maak directories
 RUN mkdir -p /app/data/raw /app/data/models /app/logs
 
-# Environment
+# Environment - override these when running the container
 ENV BIRDNET_DB=/data/birds.db
-ENV PG_HOST=192.168.1.25
-ENV PG_PORT=5433
-ENV PG_DB=emsn
-ENV PG_USER=birdpi_zolder
-ENV PG_PASS=IwnadBon2iN
+ENV PG_HOST=localhost
+ENV PG_PORT=5432
+ENV PG_DB=birdnet
+ENV PG_USER=birdnet
+# PG_PASS must be set at runtime: docker run -e PG_PASS=yourpassword ...
 
 # Entry point - train existing spectrograms
 CMD ["python", "train_existing.py"]
