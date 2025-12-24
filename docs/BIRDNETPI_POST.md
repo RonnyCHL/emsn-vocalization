@@ -10,12 +10,14 @@ First, I want to express my appreciation for this incredible community. What Pat
 
 I run **two BirdNET-Pi stations** for full garden coverage:
 
-| Station | Hardware | Microphone | Location |
-|---------|----------|------------|----------|
-| **Zolder** (attic) | Raspberry Pi 5 | Steinberg UR22mkII + Clippy EM272 | Rooftop, north-facing |
-| **Berging** (shed) | Raspberry Pi 4 | ReSpeaker USB + external mic | Garden level, south-facing |
+| Station | Hardware | Audio Interface | Microphones |
+|---------|----------|-----------------|-------------|
+| **Zolder** (attic) | Raspberry Pi 5 | Steinberg UR22mkII | 2x Earsight Standard V2 |
+| **Berging** (shed) | Raspberry Pi 4 (8GB) | Steinberg UR44 | 2x Earsight Standard V2 + 2x Clippy EM272 |
 
-Both feed into a central PostgreSQL database on my Synology NAS, with Grafana dashboards for visualization.
+The [Earsight microphones](https://earsight.nl/) are designed for wildlife soundscape recording - I'm getting great results with them. All microphones are mounted under roof gutters, out of the rain. Combined with the Clippy EM272 lavaliers, the shed station captures audio from multiple directions.
+
+Both stations feed into a central PostgreSQL database on my Synology NAS, with Grafana dashboards for visualization.
 
 ## What I've built
 
