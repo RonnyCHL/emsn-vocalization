@@ -4,6 +4,8 @@ Hi everyone,
 
 I'm Ronny Hullegie from the Netherlands, running BirdNET-Pi on a Raspberry Pi 5 as part of my home biodiversity monitoring project (EMSN - Ecological Monitoring System Nijverdal).
 
+First, I want to express my appreciation for this incredible community. What Patrick McGuire (@mcguirepr89) started as a pioneer project - bringing real-time bird identification to the Raspberry Pi - has grown into something truly special. And the fact that @Nachtzuster has taken up the torch to continue development and keep the project alive and thriving is fantastic. This kind of open source collaboration is what makes projects like this possible. Thank you both, and everyone who contributes!
+
 I've developed a **vocalization classifier** that adds extra context to BirdNET-Pi detections, and I'd like to share it with the community.
 
 ## What does it do?
@@ -50,21 +52,22 @@ I've packaged this as a **standalone add-on** that works alongside any BirdNET-P
 curl -sSL https://raw.githubusercontent.com/RonnyCHL/emsn-vocalization/main/install.sh | bash
 ```
 
-The installer sets up a systemd service that enriches your detections in the background.
+The installer sets up a systemd service that enriches your detections in the background. Your BirdNET-Pi installation remains completely untouched.
 
 ## Looking for feedback
 
 I'm sharing this to:
 
 1. **Get testers** - Does it work on your setup? Which species are you seeing?
-2. **Hear ideas** - Would native integration in BirdNET-Pi be interesting?
-3. **Find collaborators** - Anyone want to help train models for other regions?
+2. **Hear ideas** - Would tighter integration with BirdNET-Pi be interesting for the community?
+3. **Find collaborators** - Anyone want to help train models for other regions (North America, UK, etc.)?
 
 ## Technical notes
 
 - MIT licensed, free to use and modify
 - Training pipeline uses Google Colab (free GPU) or local Docker
 - Models trained on Xeno-canto audio with data augmentation
+- Species-specific models (~35 MB each) for accurate classification
 
 ## A note on development
 
@@ -72,7 +75,7 @@ I developed this classifier with assistance from Claude (Anthropic's AI). Claude
 
 ---
 
-Happy to answer any questions! And thanks to @Nachtzuster and the community for building such an amazing project - BirdNET-Pi is the foundation that makes this possible.
+Happy to answer any questions! And once again, huge thanks to the pioneers and maintainers who make BirdNET-Pi possible. Building on top of such a solid foundation is a privilege.
 
 Ronny Hullegie
 EMSN Project, Nijverdal, Netherlands
