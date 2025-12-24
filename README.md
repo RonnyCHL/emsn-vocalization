@@ -23,17 +23,21 @@ Works with BirdNET-Pi to add vocalization context to your bird detections.
 
 ## Quick Start
 
-### Use Pre-trained Models
+### Download Pre-trained Models
 
-```bash
-# Download models (196 Dutch species available)
-# Models are ~2MB each, download only what you need
+**197 Ultimate models** trained on Google Colab A100 are available for download:
 
-# Example: classify a detection
+📥 **[Download from Google Drive](https://drive.google.com/open?id=1eUu0ECYC3vIFX5HeRg9xyd_wfYb5Zn3i)** (~6.9 GB total)
+
+Individual models are ~35 MB each. Download only the species you need, or get them all.
+
+### Use the Classifier
+
+```python
 from src.classifiers.cnn_inference import VocalizationClassifier
 
 classifier = VocalizationClassifier(models_dir="./models")
-result = classifier.classify("Koolmees", "/path/to/audio.wav")
+result = classifier.classify("Koolmees", "/path/to/audio.mp3")
 
 if result:
     print(f"{result['type']} ({result['confidence']:.0%})")
@@ -88,21 +92,34 @@ emsn-vocalization/
 
 ## Model Details
 
-- **Architecture**: 3-layer CNN with batch normalization
-- **Input**: Mel spectrograms (128 bins, 3 seconds)
+### Ultimate Models (recommended)
+- **Architecture**: 4-layer CNN with batch normalization (32→64→128→256 filters)
+- **Classifier**: 512→256→num_classes with dropout
+- **Training**: Google Colab A100, 50 epochs, data augmentation
+- **Size**: ~35 MB per species model
+- **Accuracy**: Improved over standard models
+
+### Standard Models
+- **Architecture**: 3-layer CNN (32→64→128 filters)
+- **Classifier**: 256→num_classes
+- **Size**: ~2 MB per species model
+
+### Common specs
+- **Input**: Mel spectrograms (128x128, 3 seconds audio)
 - **Output**: song / call / alarm + confidence
-- **Size**: ~2MB per species model
-- **Accuracy**: 85-95% for common species
+- **Sample rate**: 48 kHz, freq range: 500-8000 Hz
 
 ## Available Models
 
-Currently **196 trained models** for Dutch bird species, including:
+Currently **197 trained models** for Dutch bird species, including:
 - Koolmees (Great Tit)
 - Merel (Eurasian Blackbird)
 - Roodborst (European Robin)
 - Huismus (House Sparrow)
 - Vink (Common Chaffinch)
-- ... and 191 more
+- ... and 192 more
+
+See the [Google Drive folder](https://drive.google.com/open?id=1eUu0ECYC3vIFX5HeRg9xyd_wfYb5Zn3i) for the complete list.
 
 ## Integration Options
 
