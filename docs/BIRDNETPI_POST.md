@@ -2,15 +2,24 @@
 
 Hi everyone,
 
-I'm Ronny Hullegie from the Netherlands, running BirdNET-Pi on a Raspberry Pi 5 as part of my home biodiversity monitoring project (EMSN - Ecological Monitoring System Nijverdal).
+I'm Ronny Hullegie from the Netherlands, running BirdNET-Pi as part of my home biodiversity monitoring project (EMSN - Ecological Monitoring System Nijverdal).
 
 First, I want to express my appreciation for this incredible community. What Patrick McGuire (@mcguirepr89) started as a pioneer project - bringing real-time bird identification to the Raspberry Pi - has grown into something truly special. And the fact that @Nachtzuster has taken up the torch to continue development and keep the project alive and thriving is fantastic. This kind of open source collaboration is what makes projects like this possible. Thank you both, and everyone who contributes!
 
-I've developed a **vocalization classifier** that adds extra context to BirdNET-Pi detections, and I'd like to share it with the community.
+## My setup
 
-## What does it do?
+I run **two BirdNET-Pi stations** for full garden coverage:
 
-When BirdNET-Pi identifies a bird, my classifier analyzes the same audio to determine the **type of vocalization**:
+| Station | Hardware | Microphone | Location |
+|---------|----------|------------|----------|
+| **Zolder** (attic) | Raspberry Pi 5 | Steinberg UR22mkII + Clippy EM272 | Rooftop, north-facing |
+| **Berging** (shed) | Raspberry Pi 4 | ReSpeaker USB + external mic | Garden level, south-facing |
+
+Both feed into a central PostgreSQL database on my Synology NAS, with Grafana dashboards for visualization.
+
+## What I've built
+
+I've developed a **vocalization classifier** that adds extra context to BirdNET-Pi detections. When BirdNET-Pi identifies a bird, my classifier analyzes the same audio to determine the **type of vocalization**:
 
 | Without | With Vocalization |
 |---------|-------------------|
@@ -35,8 +44,8 @@ This gives researchers and hobbyists insight into bird *behavior*, not just pres
 ## Current status
 
 I've been running this in production for over a month:
-- 80,000+ detections classified
-- Stable on Raspberry Pi 5
+- 80,000+ detections classified across both stations
+- Stable on Raspberry Pi 4 and 5
 - Pre-trained models available (~6.9 GB total, ~35 MB per species)
 
 ## Available as standalone add-on
