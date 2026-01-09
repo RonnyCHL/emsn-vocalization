@@ -1,0 +1,95 @@
+# Model License - Creative Commons BY-NC 4.0
+
+## EMSN Vocalization Classifier Models
+
+The trained machine learning models (`.pt` files) in this repository are licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**.
+
+---
+
+## License Summary
+
+### You are free to:
+
+- **Share** - copy and redistribute the models in any medium or format
+- **Adapt** - remix, transform, and build upon the models
+
+### Under the following terms:
+
+- **Attribution** - You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+- **NonCommercial** - You may not use the models for commercial purposes without explicit permission from the author.
+
+### No additional restrictions
+
+You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+---
+
+## What are "Models"?
+
+This license applies to:
+
+- All `.pt` (PyTorch) model files in `trained-models/`
+- Pre-trained weights and parameters
+- Model architecture definitions when distributed with weights
+
+This license does NOT apply to:
+
+- The source code (see [LICENSE](LICENSE) - Apache 2.0)
+- Documentation and examples
+- Training data (see Xeno-canto license terms)
+
+---
+
+## Commercial Use
+
+For commercial licensing inquiries, please contact:
+
+**Ronny Hullegie**
+GitHub: https://github.com/RonnyCHL/emsn-vocalization
+
+Commercial use includes but is not limited to:
+
+- Integration into commercial products or services
+- Use in commercial research or development
+- Resale or redistribution for profit
+- Use by for-profit organizations in production systems
+
+---
+
+## Attribution Example
+
+When using these models, please include attribution such as:
+
+> "Vocalization classification models from EMSN Vocalization by Ronny Hullegie,
+> licensed under CC BY-NC 4.0. https://github.com/RonnyCHL/emsn-vocalization"
+
+Or in academic work:
+
+```bibtex
+@software{emsn_vocalization,
+  author       = {Hullegie, Ronny},
+  title        = {EMSN Vocalization Classifier},
+  year         = {2025},
+  publisher    = {GitHub},
+  url          = {https://github.com/RonnyCHL/emsn-vocalization}
+}
+```
+
+---
+
+## Full License Text
+
+The full text of the CC BY-NC 4.0 license is available at:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+---
+
+## Training Data Attribution
+
+The models were trained using audio recordings from [Xeno-canto](https://xeno-canto.org), a citizen science project for sharing bird sounds. Individual recordings may have different Creative Commons licenses. When using these models, please also acknowledge Xeno-canto's contribution to bird sound research.
+
+---
+
+Copyright 2024-2025 Ronny Hullegie
+EMSN Vocalization Classifier
